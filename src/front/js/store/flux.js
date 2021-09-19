@@ -47,6 +47,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 			SingUp: async (email, password) => {
+				const store = getStore();
+
 				const raw = JSON.stringify({
 					email: email,
 					password: password
@@ -67,12 +69,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					console.log(data);
 					sessionStorage.setItem("token", data.access_token);
-					console.log(data.access_token);
-					setStore({ token: access_token });
-					console.log(store.token);
-
+					setStore({ token: data.access_token });
 					return true;
 				} catch (error) {
 					console.error("Something went wrong try again");
