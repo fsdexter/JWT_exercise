@@ -44,7 +44,7 @@ def sing_up_user():
     
     new_user = User(
         email = email_request, 
-        password = password_request
+        password = access_token
         )
     
     db.session.add(new_user)
