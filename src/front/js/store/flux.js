@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -41,6 +42,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			SingUp: async (email, password) => {
+				const raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				const requestOptions = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: raw,
+					redirect: "follow"
+				};
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/singup", requestOptions);
+					if (response.status !== 200) {
+						alert("Something went wrong");
+						return false;
+					}
+
+					const data = await response.json();
+					sessionStorage.setItem("token", data.access_token);
+					setStore({ token: access_token });
+					return true;
+				} catch (error) {
+					console.error("Something went wrong try again");
+				}
 			}
 		}
 	};
