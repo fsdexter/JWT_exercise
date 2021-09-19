@@ -1,6 +1,10 @@
+// URL del backend
+import { API_BASE_URL } from "../constants";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -41,6 +45,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			SingUp: async (email, password) => {
+				const raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				const requestOptions = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: raw,
+					redirect: "follow"
+				};
+
+				try {
+					const response = await fetch(API_BASE_URL + "/api/singup", requestOptions);
+					if (response.status !== 200) {
+						alert("Something went wrong");
+						return false;
+					}
+
+					const data = await response.json();
+					console.log(data);
+					sessionStorage.setItem("token", data.access_token);
+					console.log(data.access_token);
+					setStore({ token: access_token });
+					console.log(store.token);
+
+					return true;
+				} catch (error) {
+					console.error("Something went wrong try again");
+				}
 			}
 		}
 	};
