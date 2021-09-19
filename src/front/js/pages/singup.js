@@ -27,7 +27,7 @@ export const SingUp = () => {
 			redirect: "follow"
 		};
 
-		fetch("https://3001-cyan-monkey-hn430x61.ws-eu16.gitpod.io/api/singup", requestOptions)
+		fetch(API_BASE_URL + "/api/singup", requestOptions)
 			.then(response => response.text())
 			.then(result => console.log(result))
 			.catch(error => console.log("error", error));
