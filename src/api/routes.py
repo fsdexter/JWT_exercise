@@ -4,6 +4,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -44,7 +46,7 @@ def sing_up_user():
     
     new_user = User(
         email = email_request, 
-        password = access_token
+        password = generate_password_hash(password_request, "sha256")
         )
     
     db.session.add(new_user)
