@@ -71,3 +71,17 @@ def sing_up_user():
     db.session.commit()
     
     return jsonify(body_request), 200
+
+@api.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+
+    response_body = {
+        "message": "SECRET"
+    }
+
+    return jsonify(response_body), 200
+    # Access the identity of the current user with get_jwt_identity
+    #current_user = get_jwt_identity()
+    #return jsonify(logged_in_as=current_user), 200
+

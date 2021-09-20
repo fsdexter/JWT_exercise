@@ -113,7 +113,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem("token");
 				setStore({ token: null });
 			},
-			Secret: () => {}
+			Secret: () => {
+				const store = getStore();
+
+				var requestOptions = {
+					method: "GET",
+					headers: { Authorization: "Bearer " + store.token },
+					redirect: "follow"
+				};
+
+				fetch(API_BASE_URL + "/api/protected", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			}
 		}
 	};
 };
