@@ -42,8 +42,7 @@ def sing_up_user():
     
     email_request = body_request.get("email", None)
     password_request = body_request.get("password", None)
-    access_token = create_access_token(identity=password_request)
-    
+        
     new_user = User(
         email = email_request, 
         password = generate_password_hash(password_request, "sha256")
