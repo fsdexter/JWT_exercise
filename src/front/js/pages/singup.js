@@ -15,8 +15,7 @@ export const SingUp = () => {
 
 	const handleSingUp = e => {
 		actions.SingUp(email, password).then(() => {
-			console.log(">>>>>>>>>>>>>>>>>>>>USER ADDED TO DE DATA BASE<<<<<<<<<<<<<<<<<<<<");
-			// 	history.push("/login");
+			history.push("/login");
 		});
 	};
 
