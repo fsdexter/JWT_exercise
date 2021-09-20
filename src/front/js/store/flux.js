@@ -27,10 +27,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getMessage: () => {
 				// fetching data from the backend
-				fetch(process.env.BACKEND_URL + "/api/hello")
-					.then(resp => resp.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));
+				// 	fetch(process.env.BACKEND_URL + "/api/hello")
+				// 		.then(resp => resp.json())
+				// 		.then(data => setStore({ message: data.message }))
+				// 		.catch(error => console.log("Error loading message from backend", error));
 			},
 			changeColor: (index, color) => {
 				//get the store
@@ -123,8 +123,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 
 				fetch(API_BASE_URL + "/api/protected", requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
+					.then(resp => resp.json())
+					.then(data => setStore({ message: data.message }))
 					.catch(error => console.log("error", error));
 			}
 		}

@@ -18,12 +18,15 @@ export const Private = () => {
 				</>
 			) : (
 				<>
-					<button onClick={() => actions.Secret()} className="btn btn-danger">
-						SECRET MESSAGE
-					</button>
-					<button onClick={() => actions.logout()} className="btn btn-primary">
-						LOGOUT
-					</button>
+					<div className="container">
+						<button onClick={() => actions.Secret()} className="btn btn-danger">
+							SECRET MESSAGE
+						</button>
+						<div>{store.message || "Loading message from the backend..."}</div>
+						<button onClick={() => actions.logout()} className="btn btn-primary">
+							LOGOUT
+						</button>
+					</div>
 				</>
 			)}
 		</div>
