@@ -46,7 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
-			SingUp: async (email, password) => {
+			Login: async (email, password) => {
 				const store = getStore();
 
 				const raw = JSON.stringify({
@@ -62,9 +62,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 
 				try {
-					const response = await fetch(API_BASE_URL + "/api/singup", requestOptions);
+					const response = await fetch(API_BASE_URL + "/api/login", requestOptions);
 					if (response.status !== 200) {
-						alert("Something went wrong");
+						alert("Something went at LOGIN FETCH wrong");
 						return false;
 					}
 
@@ -73,7 +73,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ token: data.access_token });
 					return true;
 				} catch (error) {
-					console.error("Something went wrong try again");
+					console.error("Something went wrong AT LOGIN try again");
+				}
+			},
+			SingUp: async (email, password) => {
+				const store = getStore();
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: raw,
+					redirect: "follow"
+				};
+				try {
+					const response = await fetch(API_BASE_URL + "/api/sing_up", requestOptions);
+					//.then(response => response.text())
+					if (response.status !== 200) {
+						alert("Something went wrong at SING UP");
+						return false;
+					}
+					//.then(result => console.log(result))
+					const result = await response.json();
+					return true;
+				} catch (error) {
+					//.catch(error => console.log("error", error));
+					console.error("Something went at SING UP wrong try again");
 				}
 			}
 		}

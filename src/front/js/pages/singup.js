@@ -3,6 +3,9 @@ import { Context } from "../store/appContext";
 import { useHistory } from "react-router";
 import "../../styles/home.scss";
 
+// URL del backend
+import { API_BASE_URL } from "../constants";
+
 export const SingUp = () => {
 	const { store, actions } = useContext(Context);
 
@@ -10,9 +13,10 @@ export const SingUp = () => {
 	const [password, setPassword] = useState("");
 	const history = useHistory();
 
-	const handleSingUp = () => {
+	const handleSingUp = e => {
 		actions.SingUp(email, password).then(() => {
-			history.push("/login");
+			console.log(">>>>>>>>>>>>>>>>>>>>USER ADDED TO DE DATA BASE<<<<<<<<<<<<<<<<<<<<");
+			// 	history.push("/login");
 		});
 	};
 
