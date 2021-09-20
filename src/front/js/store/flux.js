@@ -27,10 +27,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getMessage: () => {
 				// fetching data from the backend
-				fetch(process.env.BACKEND_URL + "/api/hello")
-					.then(resp => resp.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));
+				// 	fetch(process.env.BACKEND_URL + "/api/hello")
+				// 		.then(resp => resp.json())
+				// 		.then(data => setStore({ message: data.message }))
+				// 		.catch(error => console.log("Error loading message from backend", error));
 			},
 			changeColor: (index, color) => {
 				//get the store
@@ -104,6 +104,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					//.catch(error => console.log("error", error));
 					console.error("Something went at SING UP wrong try again");
 				}
+			},
+			syncLocalToken: () => {
+				const token = sessionStorage.getItem("token");
+				if (token && token != "" && token != null && token != undefined) setStore({ token: token });
+			},
+			logout: () => {
+				sessionStorage.removeItem("token");
+				setStore({ token: null });
+			},
+			Secret: () => {
+				const store = getStore();
+
+				var requestOptions = {
+					method: "GET",
+					headers: { Authorization: "Bearer " + store.token },
+					redirect: "follow"
+				};
+
+				fetch(API_BASE_URL + "/api/protected", requestOptions)
+					.then(resp => resp.json())
+					.then(data => setStore({ message: data.message }))
+					.catch(error => console.log("error", error));
 			}
 		}
 	};

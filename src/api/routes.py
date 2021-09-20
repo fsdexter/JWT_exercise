@@ -27,13 +27,32 @@ def handle_hello():
 # create_access_token() function is used to actually generate the JWT.
 @api.route("/login", methods=["POST"])
 def token():
-
     email = request.json.get("email", None)
     password = request.json.get("password", None)
+    password_hash = generate_password_hash(password, "sha256")
+    user_checked = User.query.filter_by(email = email).one_or_none()
   
+    # to check the user existence
+    if email == None or password == None:
+        return jsonify({"msg": "Bad email or password"}), 401
+   
+    # to check email and password
+    if not user_checked or check_password_hash(password_hash, "wrong-passw@rd"):
+        return jsonify("Your credentials are wrong, please try again"), 401
 
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+    access_token = create_access_token(identity = user_checked.serialize())
+    #access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token), 200
+
+
+    #cola
+    #body_request = request.get_json()
+    # New token
+    #return jsonify({"access_token": access_token, "user": user_checked.serialize()}), 200
+
+
+
+
 
 @api.route("sing_up", methods=["POST"])
 def sing_up_user():
@@ -52,3 +71,17 @@ def sing_up_user():
     db.session.commit()
     
     return jsonify(body_request), 200
+
+@api.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+
+    response_body = {
+        "message": "SECRET"
+    }
+
+    return jsonify(response_body), 200
+    # Access the identity of the current user with get_jwt_identity
+    #current_user = get_jwt_identity()
+    #return jsonify(logged_in_as=current_user), 200
+
